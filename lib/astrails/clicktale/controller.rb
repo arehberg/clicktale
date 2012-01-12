@@ -25,21 +25,53 @@ module Astrails
       end
 
       def clicktaleize
-        yield.tap do
-          cache_page(nil, "/clicktale/#{clicktale_cache_token}") if clicktale_enabled?
+        res = yield
+
+        if clicktale_enabled? && response.body.present?
+          top_regexp = clicktale_config[:insert_after] || /(\<body\>)/
+          bottom_regexp = clicktale_config[:insert_before] || /(\<\/body\>)/
+          response.body.sub!(top_regexp) { |match| match + "\n" + clicktale_config[:top] }
+          response.body.sub!(bottom_regexp) { |match| clicktale_bottom + "\n" + match }
+
+          if clicktale_config[:allowed_addresses].blank?
+            self.class.cache_page(response.body, "/clicktale/#{clicktale_cache_token}")
+          else
+            self.class.cache_page(response.body, "/../tmp/clicktale/#{clicktale_cache_token}")
+          end
         end
+
+        res
       end
 
       def clicktale_enabled?
-        @clicktale_enabled ||= clicktale_config[:enabled] && request.format.try(:html?) && request.get?
+        @clicktale_enabled ||= clicktale_config[:enabled] &&
+          request.format.try(:html?) &&
+          !(request.path =~ /clicktale.*\.html$/) &&
+          cookie_enabled? &&
+          regexp_enabled?
       end
 
       def clicktale_config
         @clicktale_config ||= Astrails::Clicktale::CONFIG.merge(@@clicktale_options || {}).merge(@clicktale_options || {})
       end
 
-
       protected
+
+      def clicktale_bottom
+        clicktale_config[:bottom].gsub(/(if.*typeof.*ClickTale.*function)/, "\nvar ClickTaleFetchFrom='#{clicktale_url}';\n\\1")
+      end
+
+      def regexp_enabled?
+        clicktale_config[:do_not_replace].present? ? !(response.body =~ clicktale_config[:do_not_replace]) : true
+      end
+
+      def cookie_enabled?
+        if clicktale_config[:do_not_process_cookie_name].present?
+          cookies[clicktale_config[:do_not_process_cookie_name]] != clicktale_config[:do_not_process_cookie_value]
+        else
+          true
+        end
+      end
 
       def clicktale_cache_token(extra = "")
         @clicktale_cache_token ||= Digest::SHA1.hexdigest(Time.now.to_s.split(//).sort_by {rand}.join + extra)
@@ -52,7 +84,6 @@ module Astrails
       def clicktale_url
         @clicktale_url ||= "#{request.protocol}#{request.host_with_port}#{clicktale_path}"
       end
-
     end
   end
 end
