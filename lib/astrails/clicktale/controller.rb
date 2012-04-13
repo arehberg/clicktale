@@ -26,7 +26,7 @@ module Astrails
 
       def clicktaleize
         yield.tap do
-          cache_page(nil, "/clicktale/#{clicktale_cache_token}") if clicktale_enabled?
+          Rails.cache.write(clicktale_cache_token, response.body) if clicktale_enabled?
         end
       end
 
@@ -46,7 +46,7 @@ module Astrails
       end
 
       def clicktale_path
-        @clicktale_path ||= "/clicktale/#{clicktale_cache_token}.html"
+        @clicktale_path ||= "/clicktale/#{clicktale_cache_token}"
       end
 
       def clicktale_url
