@@ -46,7 +46,7 @@ module Astrails
       end
 
       def clicktale_path
-        @clicktale_path ||= "/clicktale/#{clicktale_cache_token}"
+        @clicktale_path ||= "clicktale/#{clicktale_cache_token}"
       end
 
       def clicktale_url
