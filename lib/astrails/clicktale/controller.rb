@@ -50,7 +50,7 @@ module Astrails
       end
 
       def clicktale_url
-        @clicktale_url ||= "#{request.protocol}#{request.host_with_port}#{clicktale_path}"
+        @clicktale_url ||= "#{root_url}#{clicktale_path}"
       end
 
     end
