@@ -1,3 +1,3 @@
-ActionController::Routing::Routes.draw do |map|
-  map.connect 'clicktale/:filename.:format', :controller => "clicktale", :action => "show"
+Rails.application.routes.draw do
+  match "clicktale/:filename" => "clicktale#show"
 end

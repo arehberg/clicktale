@@ -24,5 +24,8 @@ module Astrails
       puts "*" * 50
     end
 
+    class Engine < Rails::Engine
+      isolate_namespace Clicktale
+    end
   end
 end
