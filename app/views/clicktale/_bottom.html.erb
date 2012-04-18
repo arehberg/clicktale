@@ -1,23 +1,27 @@
-<div id="ClickTaleDiv" style="display: none;" />
+<div id="ClickTaleDiv" style="display: none;"/>
 
 <% if request.ssl? -%>
-<script src="https://clicktale.pantherssl.com/WRc3.js" type="text/javascript"></script>
+  <script src="https://clicktale.pantherssl.com/WRc3.js" type="text/javascript"></script>
 <% else -%>
-<script src="http://s.clicktale.net/WRc3.js" type="text/javascript"></script>
+  <script src="http://s.clicktale.net/WRc3.js" type="text/javascript"></script>
 <% end -%>
 <script type="text/javascript">
-  if(typeof ClickTale == 'function') { 
-    <%- if request.ssl? -%>
+  if (typeof ClickTale == 'function') {
+  <%- if request.ssl? -%>
     var ClickTaleSSL = 1;
-    <%- end -%>
-    <%- if tag -%>
+  <%- end -%>
+  <%- if tag -%>
     ClickTaleTag('<%= tag %>');
-    <%- end -%>
+  <%- end -%>
     var ClickTaleFetchFrom = '<%= path %>';
+  <%- if upload_pre.present? && upload_suf.present? %>
+    ClickTaleUploadPage('<%= upload_pre %>', '<%= upload_suf %>');
+  <%- else -%>
     <%- if param -%>
-    ClickTale(<%= project_id %>, <%= ratio %>, "<%= param %>");
+      ClickTale(<%= project_id %>, <%= ratio %>, "<%= param %>");
     <%- else -%>
-    ClickTale(<%= project_id %>, <%= ratio %>); 
+      ClickTale(<%= project_id %>, <%= ratio %>);
     <% end -%>
+  <% end -%>
   }
 </script>

@@ -14,7 +14,9 @@ module Astrails
           :path => clicktale_url,
           :ratio => clicktale_config[:ratio] || 1,
           :tag => clicktale_config[:tag],
-          :param => clicktale_config[:param]
+          :param => clicktale_config[:param],
+          :upload_pre => clicktale_config[:upload_pre],
+          :upload_suf => clicktale_config[:upload_suf]
         }
       end
     end
