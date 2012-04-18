@@ -15,7 +15,7 @@
   <%- end -%>
     var ClickTaleFetchFrom = '<%= path %>';
   <%- if upload_pre.present? && upload_suf.present? %>
-    ClickTaleUploadPage('<%= upload_pre %>', '<%= upload_suf %>');
+    ClickTaleUploadPage('<%= upload_pre.html_safe %>', '<%= upload_suf.html_safe %>');
   <%- else -%>
     <%- if param -%>
       ClickTale(<%= project_id %>, <%= ratio %>, "<%= param %>");
