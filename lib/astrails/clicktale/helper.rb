@@ -6,17 +6,18 @@ module Astrails
         render :partial => "clicktale/top.html.erb"
       end
 
-      def clicktale_bottom
+      def clicktale_bottom(options = {})
         return unless clicktale_enabled?
+        config = clicktale_config.merge(options)
 
         render :partial => "clicktale/bottom.html.erb", :locals => {
-          :project_id => clicktale_config[:project_id],
+          :project_id => config[:project_id],
           :path => clicktale_url,
-          :ratio => clicktale_config[:ratio] || 1,
-          :tag => clicktale_config[:tag],
-          :param => clicktale_config[:param],
-          :upload_pre => clicktale_config[:upload_pre],
-          :upload_suf => clicktale_config[:upload_suf]
+          :ratio => config[:ratio] || 1,
+          :tag => config[:tag],
+          :param => config[:param],
+          :upload_pre => config[:upload_pre],
+          :upload_suf => config[:upload_suf]
         }
       end
     end

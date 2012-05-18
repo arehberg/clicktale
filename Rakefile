@@ -11,7 +11,6 @@ begin
     gem.authors = ["Jeremy Peterson"]
     gem.authors = ["Jeremy Peterson"]
     gem.add_development_dependency "rspec"
-    gem.add_development_dependency("rails", ">= 3.2.0")
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
