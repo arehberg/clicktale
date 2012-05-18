@@ -11,13 +11,14 @@ Gem::Specification.new do |s|
   s.authors = ["Jeremy Peterson"]
   s.date = "2012-05-18"
   s.email = "jeremy.g.peterson@gmail.com"
-  s.executables = ["clicktaleize"]
   s.extra_rdoc_files = [
     "LICENSE",
     "README.rdoc"
   ]
   s.files = [
     ".document",
+    ".rvmrc",
+    "Gemfile",
     "LICENSE",
     "README.rdoc",
     "Rakefile",
@@ -25,7 +26,6 @@ Gem::Specification.new do |s|
     "app/controllers/clicktale_controller.rb",
     "app/views/clicktale/_bottom.html.erb",
     "app/views/clicktale/_top.html.erb",
-    "bin/clicktaleize",
     "clicktale.gemspec",
     "config/clicktale.yml",
     "config/routes.rb",
